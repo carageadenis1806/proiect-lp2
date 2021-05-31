@@ -29,11 +29,35 @@ beat2 = AudioSegment.from_wav("beat2.wav")
 
 mixed = beat2[:length].overlay(beat1)
 
-filtered = beat2.low_pass_filter(3000)
+filtered = beat2.low_pass_filter(300)
 
-beat1 = loop.reverse().pan(-0.5).overlay(loop.pan(0.5))
+filtered.export("filtered.wav",format="wav")
 
-final = filtered.overlay(loop - 3, loop=True)
+filtered2 = beat2.high_pass_filter(3000)
+filtered2.export("filtered2.wav",format="wav")
 
-final.export("final.wav",format="wav")
+#####
+
+song1 = AudioSegment.from_wav("song1.wav")
+#impartim melodia in mai multe parti
+
+ten_seconds = 10 * 1000
+
+first_ten_seconds = song1[:ten_seconds]
+
+last_5_seconds = song1[-5000:]
+
+beginning = first_ten_seconds + 6
+end = last_5_seconds - 3
+
+concatenate = beginning +  end
+concatenate == 15.0
+
+reverse = song1.reverse()
+style = beginning.append(end, crossfade=1500)
+
+repeat = style * 2
+
+result = repeat.fade_in(2000).fade_out(3000)
+result.export("result.wav",format = "wav")
 
